@@ -12,6 +12,7 @@
       class="form-control"
       id="name"
       name="name"
+      required
       [(ngModel)]="model.name"
       #nombre="ngModel"
     />
@@ -51,7 +52,6 @@
       <option value="sales">Sales</option>
       <option value="other">Other</option>
     </select>
-    <div hidden class="alert alert-danger">The field is required.</div>
   </div>
   <!-- comment -->
   <div class="mb-4">
@@ -61,6 +61,7 @@
       name="comment"
       id="comment"
       rows="4"
+      required
       placeholder="Leave a comment"
       [(ngModel)]="model.comment"
       #comment="ngModel"
