@@ -1,10 +1,5 @@
-<pre>{{ contactForm.value | json }}</pre>
-<h1>Contact Form</h1>
-<form
-  ContactForm
-  (ngSubmit)="onSubmit(contactForm.value)"
-  #contactForm="ngForm"
->
+<h1>Reactive Contact Form</h1>
+<form (ngSubmit)="onSubmit()" [formGroup]="contactForm">
   <div class="mb-4">
     <label for="name" class="form-label">Name</label>
     <input
@@ -12,11 +7,25 @@
       class="form-control"
       id="name"
       name="name"
-      [(ngModel)]="model.name"
-      #nombre="ngModel"
+      formControlName="name"
     />
-    <div [hidden]="nombre.valid || nombre.pristine" class="alert alert-danger">
+    <div
+      *ngIf="
+        contactForm.get('name')?.touched && contactForm.get('name')?.errors?.['required']
+      "
+      class="alert alert-danger"
+    >
       The field is required.
+    </div>
+    <div
+      *ngIf="
+        contactForm.get('name')?.touched && contactForm.get('name')?.errors?.['minlength']
+      "
+      class="alert alert-danger"
+    >
+      Name must be longer than
+      {{contactForm.get('name')?.errors?.['minlength']?.requiredLength}}
+      characters.
     </div>
   </div>
   <!-- checkk -->
@@ -29,11 +38,15 @@
       class="form-check-input"
       id="checkAdult"
       name="checkAdult"
-      [(ngModel)]="model.checkAdult"
       required
-      #check="ngModel"
+      formControlName="checkAdult"
     />
-    <div [hidden]="check.valid || check.pristine" class="alert alert-danger">
+    <div
+      *ngIf="
+      contactForm.get('checkAdult')?.touched && contactForm.get('checkAdult')?.errors?.['required']
+    "
+      class="alert alert-danger"
+    >
       The field is required.
     </div>
   </div>
@@ -44,14 +57,13 @@
       name="departament"
       id="departament"
       class="form-select form-select-sm"
-      [(ngModel)]="model.departament"
+      formControlName="departament"
     >
       <option selected>Open Menu</option>
       <option value="marketing">Marketing</option>
       <option value="sales">Sales</option>
       <option value="other">Other</option>
     </select>
-    <div hidden class="alert alert-danger">The field is required.</div>
   </div>
   <!-- comment -->
   <div class="mb-4">
@@ -62,14 +74,25 @@
       id="comment"
       rows="4"
       placeholder="Leave a comment"
-      [(ngModel)]="model.comment"
-      #comment="ngModel"
+      formControlName="comment"
     ></textarea>
     <div
-      [hidden]="comment.valid || comment.pristine"
+      *ngIf="
+      contactForm.get('comment')?.touched && contactForm.get('comment')?.errors?.['required']
+    "
       class="alert alert-danger"
     >
       The field is required.
+    </div>
+    <div
+      *ngIf="
+        contactForm.get('comment')?.touched && contactForm.get('comment')?.errors?.['minlength']
+      "
+      class="alert alert-danger"
+    >
+      Commnets must be longer than
+      {{contactForm.get('comment')?.errors?.['minlength']?.requiredLength}}
+      characters.
     </div>
   </div>
 
